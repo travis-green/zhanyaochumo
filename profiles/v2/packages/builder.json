@@ -1,0 +1,98 @@
+{
+  "__version__": "1.3.4",
+  "log": {
+    "level": 4
+  },
+  "common": {
+    "name": "zhanyaochumo",
+    "buildPath": "project://build",
+    "outputName": "wechatgame",
+    "mainBundleCompressionType": "merge_dep",
+    "platform": "wechatgame"
+  },
+  "BuildTaskManager": {
+    "taskMap": {
+      "1678349991717": {
+        "type": "build",
+        "id": "1678349991717",
+        "progress": 1,
+        "state": "success",
+        "stage": "build",
+        "message": "2023-3-9 16:21:21 Build success in 89908 ms!",
+        "options": {
+          "name": "zhanyaochumo",
+          "platform": "web-desktop",
+          "buildPath": "project://build",
+          "debug": false,
+          "md5Cache": false,
+          "skipCompressTexture": false,
+          "sourceMaps": false,
+          "polyfills": {
+            "asyncFunctions": true
+          },
+          "experimentalEraseModules": false,
+          "useBuiltinServer": false,
+          "mainBundleIsRemote": false,
+          "mainBundleCompressionType": "merge_dep",
+          "useSplashScreen": true,
+          "packAutoAtlas": true,
+          "startScene": "4aeb0d5a-1d59-4d66-bf5d-caa1edd804d1",
+          "outputName": "web-desktop",
+          "scenes": [
+            {
+              "url": "db://assets/game.scene",
+              "uuid": "4aeb0d5a-1d59-4d66-bf5d-caa1edd804d1",
+              "inBundle": false
+            }
+          ],
+          "web-desktop": [],
+          "packages": {},
+          "__version__": "1.3.4"
+        },
+        "time": "2023-3-9 16:19",
+        "dirty": false
+      },
+      "1678350154685": {
+        "type": "build",
+        "id": "1678350154685",
+        "progress": 1,
+        "state": "success",
+        "stage": "build",
+        "message": "2023-3-9 16:23:42 Build success in 68177 ms!",
+        "options": {
+          "name": "fly_war",
+          "platform": "wechatgame",
+          "buildPath": "project://build",
+          "debug": false,
+          "md5Cache": false,
+          "skipCompressTexture": false,
+          "sourceMaps": false,
+          "polyfills": {
+            "asyncFunctions": false
+          },
+          "experimentalEraseModules": false,
+          "useBuiltinServer": false,
+          "mainBundleIsRemote": false,
+          "mainBundleCompressionType": "merge_dep",
+          "useSplashScreen": true,
+          "packAutoAtlas": true,
+          "startScene": "4aeb0d5a-1d59-4d66-bf5d-caa1edd804d1",
+          "outputName": "wechatgame",
+          "scenes": [
+            {
+              "url": "db://assets/game.scene",
+              "uuid": "4aeb0d5a-1d59-4d66-bf5d-caa1edd804d1",
+              "inBundle": false
+            }
+          ],
+          "web-desktop": [],
+          "packages": {},
+          "__version__": "1.3.4",
+          "wechatgame": []
+        },
+        "time": "2023-3-9 16:22",
+        "dirty": false
+      }
+    }
+  }
+}

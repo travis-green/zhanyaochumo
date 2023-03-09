@@ -1,0 +1,30 @@
+{
+  "__version__": "3.0.5",
+  "builder": {
+    "options": {
+      "web-desktop": {
+        "configID": "7bbbcf",
+        "services": []
+      },
+      "wechatgame": {
+        "configID": "7bbbcf",
+        "services": []
+      }
+    },
+    "taskOptionsMap": {
+      "1678349991717": {
+        "configID": "7bbbcf",
+        "services": []
+      },
+      "1678350154685": {
+        "configID": "7bbbcf",
+        "services": []
+      }
+    },
+    "__version__": "1.3.4"
+  },
+  "builder-options": {
+    "configID": "7bbbcf",
+    "services": []
+  }
+}
