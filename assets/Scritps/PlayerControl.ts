@@ -13,27 +13,19 @@ export class PlayerControl extends Component {
     @property(Prefab)
     buffnodeBox: Prefab = null;
     private bulletspeed: number = 0.5;
-
+    public bulletCurrent: number = 0;
+    public bulletRange: Array<number> = [0];
+    timeClock = null;
 
     update(deltaTime: number) {
 
     }
-    start() {
+
+    changeShoot(val) {
         let bpos = this.node.position;
-        let by: number;
-        this.schedule(() => {
-            this.runAnimation()
-        }, 0.6)
-
-        this.node.on(Node.EventType.TOUCH_MOVE, (event) => {
-            let p = event.getUILocation()
-            this.node.setWorldPosition(p.x, 120, 0);
-        });
-
-
-        for (let i of [-1, 0, 1]) {     // 遍历生成子弹
+        for (let i of this.bulletRange) {     // 遍历生成子弹
             //发射
-            this.schedule(() => {       // 攻击 计时器
+            this.timeClock = this.schedule(() => {       // 攻击 计时器
                 let bullet: Node = instantiate(this.bulletPer); // 创建子弹
                 bullet.parent = this.node.parent;               // 设置父物体
                 bullet.setPosition(                             // 设置子弹位置
@@ -42,7 +34,64 @@ export class PlayerControl extends Component {
                 );
             }, this.bulletspeed);
         }
+        // if (val == 2) {
+        //     this.unschedule(this.timeClock)
 
+        //     return
+        // }
+        // for (let i of this.bulletRange) {     // 遍历生成子弹
+        //     //发射
+        //     this.timeClock = this.schedule(() => {       // 攻击 计时器
+        //         let bullet: Node = instantiate(this.bulletPer); // 创建子弹
+        //         bullet.parent = this.node.parent;               // 设置父物体
+        //         bullet.setPosition(                             // 设置子弹位置
+        //             bpos.x + 35 * i,
+        //             bpos.y + 100 - 25 * Math.abs(i)
+        //         );
+        //     }, this.bulletspeed);
+        // }
+        // if (val == 1) {
+        //     // 初始
+        //     for (let i of this.bulletRange) {     // 遍历生成子弹
+        //         //发射
+        //         this.timeClock = this.schedule(() => {       // 攻击 计时器
+        //             let bullet: Node = instantiate(this.bulletPer); // 创建子弹
+        //             bullet.parent = this.node.parent;               // 设置父物体
+        //             bullet.setPosition(                             // 设置子弹位置
+        //                 bpos.x + 35 * i,
+        //                 bpos.y + 100 - 25 * Math.abs(i)
+        //             );
+        //         }, this.bulletspeed);
+        //     }
+        // } else {
+        //     for (let i of this.bulletRange) {     // 遍历生成子弹
+        //         //发射
+        //         this.timeClock = this.schedule(() => {       // 攻击 计时器
+        //             let bullet: Node = instantiate(this.bulletPer); // 创建子弹
+        //             bullet.parent = this.node.parent;               // 设置父物体
+        //             bullet.setPosition(                             // 设置子弹位置
+        //                 bpos.x + 35 * i,
+        //                 bpos.y + 100 - 25 * Math.abs(i)
+        //             );
+        //         }, this.bulletspeed);
+        //     }
+        // }
+
+
+    }
+
+    start() {
+        // let by: number;
+
+        this.changeShoot(1);
+        this.schedule(() => {
+            this.runAnimation()
+        }, 0.6)
+
+        this.node.on(Node.EventType.TOUCH_MOVE, (event) => {
+            let p = event.getUILocation()
+            this.node.setWorldPosition(p.x, 120, 0);
+        });
         this.schedule(() => {
             // 生成敌人
             let enemyPer: Node = instantiate(this.enemyPer);
@@ -89,18 +138,51 @@ export class PlayerControl extends Component {
     }
 
     onBeginContact<BulletControl extends Component>(BEGIN_CONTACT: string, onBeginConcat: any, arg2: this) {
-        console.log("我被击中了！");
         let sprite = this.getComponent(Sprite);
-        this.node.destroy();
-        for (let i of [0, 1, 2, 3]) {
-            // console.log(234234)
-            // console.log(4444, sprite)
-            // setTimeout(() => {
-            //     assetManager.loadAny({ uuid: 'a1d6bcb7-a7f3-466a-a9b9-48cc509f5092@' + uuidlist[i], type: SpriteAtlas }, (err, res) => {
-            //         sprite.spriteFrame = res;
-            //     })
-            // }, i * 75);
+        //碰撞tag2 是敌人
+        if (onBeginConcat.tag === 2) {
+            console.log('碰撞了敌人')
+            this.node.destroy();
+            // 游戏结束
+            return
         }
+        // console.log(onBeginConcat.node.removeFromParent)
+        //碰撞tag1 是增益
+        if (onBeginConcat.tag === 1) {
+            console.log('增益buff')
+            onBeginConcat.node.parent.destroy();
+            this.bulletCurrent += 1;
+            console.log(this.bulletCurrent)
+            for (let index = 0; index < this.bulletCurrent * 2; index++) {
+                // const element = array[index];
+                this.bulletRange = [-4, -3, -2, -1, 0, 1, 2, 3, 4]
+                // console.log(44444, this.bulletRange)
+                // this.bulletRange.shift(index)
+            }
+            this.changeShoot(2);
+        }
+        // if (onBeginConcat.tag === 3) {
+        //     console.log('增益buff无限活力')
+        //     onBeginConcat.node.parent.destroy();
+        //     this.bulletCurrent += 1;
+        //     console.log(this.bulletCurrent)
+        //     for (let index = 0; index < this.bulletCurrent * 2; index++) {
+        //         // const element = array[index];
+        //         this.bulletRange = [-4, -3, -2, -1, 0, 1, 2, 3, 4]
+        //         // console.log(44444, this.bulletRange)
+        //         // this.bulletRange.shift(index)
+        //     }
+        //     this.changeShoot(2);
+        // }
+        // for (let i of [0, 1, 2, 3]) {
+        // console.log(234234)
+        // console.log(4444, sprite)
+        // setTimeout(() => {
+        //     assetManager.loadAny({ uuid: 'a1d6bcb7-a7f3-466a-a9b9-48cc509f5092@' + uuidlist[i], type: SpriteAtlas }, (err, res) => {
+        //         sprite.spriteFrame = res;
+        //     })
+        // }, i * 75);
+        // }
     }
 
 }

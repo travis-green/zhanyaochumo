@@ -29,7 +29,11 @@ export class BulletControl extends Component {
     // 碰到敌人子弹销毁
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D) {
         // selfCollider.destroy();
-        this.node.destroy()
+        if (otherCollider.tag === 2) {
+            console.log('碰撞了敌人')
+            this.node.destroy();
+            // 游戏结束
+        }
         // otherCollider.getComponent(EnemyControl).onBeginContact;
         // console.log("击中敌机，子弹销毁");
         

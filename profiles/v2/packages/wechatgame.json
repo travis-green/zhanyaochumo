@@ -9,7 +9,7 @@
     },
     "options": {
       "wechatgame": {
-        "startSceneAssetBundle": false,
+        "startSceneAssetBundle": true,
         "orientation": "portrait",
         "appid": "wx3c24211996bcd60d",
         "buildOpenDataContextTemplate": "",
@@ -22,7 +22,7 @@
     },
     "taskOptionsMap": {
       "1678350154685": {
-        "startSceneAssetBundle": false,
+        "startSceneAssetBundle": true,
         "orientation": "portrait",
         "appid": "wx3c24211996bcd60d",
         "buildOpenDataContextTemplate": "",

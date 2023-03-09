@@ -7,7 +7,6 @@ export class BuffControl extends Component {
     @property
     private Speed: number = 400;
     start() {
-        console.log(234234)
         let collider = this.getComponent(Collider2D);
         if (collider) {
             collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this)
