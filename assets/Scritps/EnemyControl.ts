@@ -1,11 +1,14 @@
-import { _decorator, Component, Node, Collider2D, Contact2DType, v3, resources, SpriteAtlas, Sprite, SpriteFrame, assetManager } from 'cc';
+import { _decorator, Component, Node, Collider2D, Contact2DType, Label, v3, resources, SpriteAtlas, Sprite, SpriteFrame, assetManager } from 'cc';
 const { ccclass, property } = _decorator;
 let uuidlist: Array<string> = ['acefd', 'e1e7c', 'efb97', '5c515',];
 let gamescore: number = 0;
 @ccclass('EnemyControl')
 export class EnemyControl extends Component {
     @property
-    private Speed: number = 400;
+    private Speed: number = 200;
+    @property(Number)
+    private Hp: number = 8;
+    // public Hp: Node;
     start() {
         let collider = this.getComponent(Collider2D);
         if (collider) {
@@ -26,14 +29,25 @@ export class EnemyControl extends Component {
         }
     }
 
-    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D) {
-        selfCollider.destroy();             // 只销毁碰撞体
-        let sprite = this.getComponent(Sprite);
-        this.Speed = 0;                     // 死亡动画结束前，停留在原地
-        gamescore++;                   // 击毁敌机加分
+    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D) {                 // 击毁敌机加分
         let str0, str: string;
         // console.log("敌机坠毁   " + "目前得分：" + gamescore);
+        // console.log(this.Hp)
+        this.Hp -= 1;
+        if (this.Hp > 0) {
+            // let c = this.Hp -= 2;
+            // console.log(c)
+            this.node.getComponentInChildren(Label).string = String(this.Hp)
 
+        } else if (this.Hp <= 0) {
+            selfCollider.destroy();             // 只销毁碰撞体
+            let sprite = this.getComponent(Sprite);
+            this.Speed = 0;                     // 死亡动画结束前，停留在原地
+            gamescore++;
+            // 延时销毁
+            // setTimeout(() => {
+            this.die();
+        }
         // 遍历加载爆炸图片
         // for (let i of [0, 1, 2, 3]) {
         //     setTimeout(() => {
@@ -43,9 +57,6 @@ export class EnemyControl extends Component {
         //     }, i * 75);
         // }
 
-        // 延时销毁
-        // setTimeout(() => {
-            this.die();
         // }, 300);
     }
 

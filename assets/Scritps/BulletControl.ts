@@ -21,7 +21,7 @@ export class BulletControl extends Component {
             this.node.getWorldPosition().y + this.Speed * deltaTime)
             );
             
-        if (this.node.position.y > 820) {
+        if (this.node.position.y > 240) {
             this.node.destroy();    // 子弹超出边框，自动销毁
         }
 
