@@ -30,7 +30,6 @@ export class BulletControl extends Component {
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D) {
         // selfCollider.destroy();
         if (otherCollider.tag === 2) {
-            console.log('碰撞了敌人')
             this.node.destroy();
             // 游戏结束
         }

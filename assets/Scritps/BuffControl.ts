@@ -14,6 +14,7 @@ export class BuffControl extends Component {
     }
 
     update(deltaTime: number) {
+        // 下降
         this.node.setWorldPosition(
             v3(this.node.getWorldPosition().x,
                 this.node.getWorldPosition().y - this.Speed * deltaTime)
@@ -32,7 +33,6 @@ export class BuffControl extends Component {
         this.Speed = 0;                     // 死亡动画结束前，停留在原地
         gamescore++;                   // 击毁敌机加分
         let str0, str: string;
-        // console.log("敌机坠毁   " + "目前得分：" + gamescore);
 
         // 遍历加载爆炸图片
         // for (let i of [0, 1, 2, 3]) {

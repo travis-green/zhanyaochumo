@@ -33,13 +33,16 @@ export class EnemyControl extends Component {
         let str0, str: string;
         // console.log("敌机坠毁   " + "目前得分：" + gamescore);
         // console.log(this.Hp)
-        this.Hp -= 1;
+        // injuryFactor
+        let currentLevel: number = Number(this.node.parent.getChildByName("injuryFactorCount").getComponent(Label).string)
+        this.Hp -= (1 + currentLevel);
         if (this.Hp > 0) {
             // let c = this.Hp -= 2;
             // console.log(c)
             this.node.getComponentInChildren(Label).string = String(this.Hp)
 
         } else if (this.Hp <= 0) {
+            //没血了
             selfCollider.destroy();             // 只销毁碰撞体
             let sprite = this.getComponent(Sprite);
             this.Speed = 0;                     // 死亡动画结束前，停留在原地

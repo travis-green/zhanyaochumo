@@ -2,7 +2,7 @@ import { _decorator, Script, Label, Component, Node, Prefab, instantiate, direct
 import { EnemyControl } from './EnemyControl';
 const { ccclass, property } = _decorator;
 let uuidlist: Array<string> = ['ae37e', '7bed0', 'c7f63', 'fb38d', 'cdb19', 'da686'];
-
+// tag：0主角 1子弹 2敌人 4～5左右增益
 
 @ccclass('PlayerControl')
 export class PlayerControl extends Component {
@@ -12,8 +12,11 @@ export class PlayerControl extends Component {
     enemyPer: Prefab = null;
     @property(Prefab)
     buffnodeBox: Prefab = null;
-    private bulletspeed: number = 0.1;
+    @property(Label)
+    injuryFactorCount: Label = null;
+    private bulletspeed: number = 0.2;
     public bulletCurrent: number = 0;
+    public initLevel: number = 0;
     public levelCount: number = 1;
     public bulletRange: Array<number> = [0];
     public timeClock = null;
@@ -25,6 +28,9 @@ export class PlayerControl extends Component {
 
     changeShoot(val) {
         let bpos = this.node.position;
+        if (val == 2) {
+            return
+        }
         for (let i of this.bulletRange) {     // 遍历生成子弹
             //发射
             this.timeClock = this.schedule(() => {       // 攻击 计时器
@@ -93,7 +99,7 @@ export class PlayerControl extends Component {
         //移动canvas
         this.node.parent.on(Node.EventType.TOUCH_MOVE, (event) => {
             let p = event.getUILocation()
-            if (p.x < 60 || p.x > 310) {
+            if (p.x < 40 || p.x > 320) {
                 return
             }
             this.node.setWorldPosition(p.x, 120, 0);
@@ -111,10 +117,10 @@ export class PlayerControl extends Component {
             if (Math.random() > 0.5 && xpos) {
                 xpos = -xpos
             }
-            enemyPer.children[0].getComponent(Label).string = String(this.levelCount * 2)
+            enemyPer.children[0].getComponent(Label).string = String(Math.floor(this.levelCount) * 8)
             enemyPer.setPosition(xpos, ypos);
             enemyPerSCript = enemyPer.getComponent('EnemyControl');
-            enemyPerSCript.Hp = this.levelCount * 2;
+            enemyPerSCript.Hp = Math.floor(this.levelCount) * 8;
         }, 2)
 
 
@@ -151,21 +157,21 @@ export class PlayerControl extends Component {
 
     onBeginContact<BulletControl extends Component>(BEGIN_CONTACT: string, onBeginConcat: any, arg2: this) {
         let sprite = this.getComponent(Sprite);
-        //碰撞tag2 是敌人
         if (onBeginConcat.tag === 2) {
-            console.log('碰撞了敌人')
             this.node.destroy();
             director.pause()
             // 游戏结束
             return
         }
         // console.log(onBeginConcat.node.removeFromParent)
-        //碰撞tag1 是增益
-        if (onBeginConcat.tag === 1) {
-            console.log('增益buff')
-            onBeginConcat.node.parent.destroy();
-            this.bulletCurrent += 1;
-            console.log(222222, this.timeClock)
+        if (onBeginConcat.tag === 5 || onBeginConcat.tag === 4) {
+            console.log('增益')
+            this.initLevel += 1;
+            this.injuryFactorCount.getComponent(Label).string = String(this.initLevel)
+            // injuryFactor
+            // console.log(onBeginConcat.tag)
+            // onBeginConcat.node.destroy();
+            // this.bulletCurrent += 1;
             // this.unschedule(timeClock)
             // console.log(this.bulletCurrent)
             // for (let index = 0; index < this.bulletCurrent * 2; index++) {
