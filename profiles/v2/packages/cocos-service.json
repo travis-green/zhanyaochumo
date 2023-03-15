@@ -1,5 +1,5 @@
 {
-  "__version__": "3.0.5",
+  "__version__": "3.0.6",
   "builder": {
     "options": {
       "web-desktop": {
@@ -17,6 +17,14 @@
         "services": []
       },
       "1678350154685": {
+        "configID": "7bbbcf",
+        "services": []
+      },
+      "1678349991717}": {
+        "configID": "7bbbcf",
+        "services": []
+      },
+      "1678350154685}": {
         "configID": "7bbbcf",
         "services": []
       }
