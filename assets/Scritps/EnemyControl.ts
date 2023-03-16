@@ -1,6 +1,7 @@
 import { _decorator, Component, Node, Collider2D, UIOpacity, Contact2DType, Label, v3, resources, SpriteAtlas, Sprite, SpriteFrame, assetManager } from 'cc';
 const { ccclass, property } = _decorator;
 let uuidlist: Array<string> = ['31a11', '4cf43', '5d032', '01ebf', 'cea7e', '6d052', 'c072d', '6318b', 'ceb65'];
+let enemyhalolist: Array<string> = ['93043', 'a6b9d', 'ecffe', '74ef1', '7d214', 'fea17', 'd7755', 'fe069', '0f466', 'd6710']; // 怪物光环
 let gamescore: number = 0;
 
 
@@ -13,6 +14,7 @@ export class EnemyControl extends Component {
     // public Hp: Node;
     start() {
         let collider = this.getComponent(Collider2D);
+
         if (collider) {
             collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this)
         }
@@ -51,6 +53,7 @@ export class EnemyControl extends Component {
             // this.node.scale = 0;
             const opacityComp = this.node.getComponentInChildren(UIOpacity);
             opacityComp.opacity = 0;
+            this.node.children[1].destroy();
             selfCollider.destroy();             // 只销毁碰撞体
             this.Speed = 0;                     // 死亡动画结束前，停留在原地
             gamescore++;

@@ -2,6 +2,7 @@ import { _decorator, Script, Label, Component, Node, Prefab, instantiate, direct
 import { EnemyControl } from './EnemyControl';
 const { ccclass, property } = _decorator;
 let uuidlist: Array<string> = ['ae37e', '7bed0', 'c7f63', 'fb38d', 'cdb19', 'da686'];
+let npclist: Array<string> = ['720de7f9-8261-4819-8802-678bc370c14e', '7f0e291e-bf4f-4c6d-ae3d-d57f4bbf13ab', 'b1fa4cdd-15c3-465c-9214-46d88d8bbf4f', '2afc62e1-ca27-4ed2-8f32-3d17ec905599', '3d1ece16-c3bf-4c51-840c-49fc7afe81dd', '0184e0be-56fc-4be9-937c-4c01490d389d', '76a5def9-b9d0-45dd-af4e-e6ef9c7af611'];
 // tag：0主角 1子弹 2敌人 4～5左右增益
 
 @ccclass('PlayerControl')
@@ -111,6 +112,11 @@ export class PlayerControl extends Component {
             let enemyPer: Node = instantiate(this.enemyPer);
             let enemyPerSCript = null;
             enemyPer.parent = this.node.parent;
+            var index = Math.floor((Math.random() * npclist.length));
+
+            // assetManager.loadAny({ uuid: npclist[index] || '720de7f9-8261-4819-8802-678bc370c14e', type: SpriteAtlas }, (err, res) => {
+            //     enemyPer.getComponent(Sprite).spriteFrame = res;
+            // })
             let num = 175 * Math.random() + 1
             let xpos: number = Math.random() >= 0.5 ? -110 : 110;
             let ypos: number = 1400;

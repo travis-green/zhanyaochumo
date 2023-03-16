@@ -21,8 +21,10 @@ export class BuffAdd extends Component {
                 // 左
                 // cc.director.getCollisionManager()
                 this.node.parent.children[1].getComponent(Collider2D).enabled = false
+                this.node.parent.children[2].destroy() // 光环销毁
             } else if (BEGIN_CONTACT.tag == 5) {
                 this.node.parent.children[0].getComponent(Collider2D).enabled = false
+                this.node.parent.children[3].destroy()
             }
             // console.log(this.node.parent)
             BEGIN_CONTACT.node.destroy();
