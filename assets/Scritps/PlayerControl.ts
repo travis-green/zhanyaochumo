@@ -1,8 +1,9 @@
-import { _decorator, Script, Label, Component, Node, Prefab, instantiate, director, Collider2D, ICollisionEvent, Contact2DType, assetManager, Sprite, SpriteAtlas } from 'cc';
+import { _decorator, Script, SpriteFrame, resources, Label, Component, Node, Prefab, instantiate, director, Collider2D, ICollisionEvent, Contact2DType, assetManager, Sprite, SpriteAtlas } from 'cc';
 import { EnemyControl } from './EnemyControl';
 const { ccclass, property } = _decorator;
 let uuidlist: Array<string> = ['ae37e', '7bed0', 'c7f63', 'fb38d', 'cdb19', 'da686'];
-let npclist: Array<string> = ['720de7f9-8261-4819-8802-678bc370c14e', '7f0e291e-bf4f-4c6d-ae3d-d57f4bbf13ab', 'b1fa4cdd-15c3-465c-9214-46d88d8bbf4f', '2afc62e1-ca27-4ed2-8f32-3d17ec905599', '3d1ece16-c3bf-4c51-840c-49fc7afe81dd', '0184e0be-56fc-4be9-937c-4c01490d389d', '76a5def9-b9d0-45dd-af4e-e6ef9c7af611'];
+let npclist: Array<string> = ['1', '2', '3', '4', '5', '6', '7'];
+let levelup1: Array<string> = ['2f41a', '7a232', '18485', '0cda5', 'a6c49', '656a6', '07429', '80fe3', '54878', 'ba987', '2fc59', 'ed7eb', 'e2c9b', 'c7ad5', '52c42', '8fa1e', 'a0870', 'f3508', '2313e', '4f3ca', 'dc0bd', '85e40', '29e0e', '706e2', '3d33a', '3fc89', '8a581', '93d1c', '72a05', '22b56', '5c7bb', 'a9817', '4a939', '3879b', '17ed2', 'daa6e', '7f2cc', 'dcb3e', '80ca5', 'b86ff', 'ea784'];
 // tag：0主角 1子弹 2敌人 4～5左右增益
 
 @ccclass('PlayerControl')
@@ -43,50 +44,6 @@ export class PlayerControl extends Component {
                 );
             }, this.bulletspeed);
         }
-        // if (val == 2) {
-        //     this.unschedule(this.timeClock)
-
-        //     return
-        // }
-        // for (let i of this.bulletRange) {     // 遍历生成子弹
-        //     //发射
-        //     this.timeClock = this.schedule(() => {       // 攻击 计时器
-        //         let bullet: Node = instantiate(this.bulletPer); // 创建子弹
-        //         bullet.parent = this.node.parent;               // 设置父物体
-        //         bullet.setPosition(                             // 设置子弹位置
-        //             bpos.x + 35 * i,
-        //             bpos.y + 100 - 25 * Math.abs(i)
-        //         );
-        //     }, this.bulletspeed);
-        // }
-        // if (val == 1) {
-        //     // 初始
-        //     for (let i of this.bulletRange) {     // 遍历生成子弹
-        //         //发射
-        //         this.timeClock = this.schedule(() => {       // 攻击 计时器
-        //             let bullet: Node = instantiate(this.bulletPer); // 创建子弹
-        //             bullet.parent = this.node.parent;               // 设置父物体
-        //             bullet.setPosition(                             // 设置子弹位置
-        //                 bpos.x + 35 * i,
-        //                 bpos.y + 100 - 25 * Math.abs(i)
-        //             );
-        //         }, this.bulletspeed);
-        //     }
-        // } else {
-        //     for (let i of this.bulletRange) {     // 遍历生成子弹
-        //         //发射
-        //         this.timeClock = this.schedule(() => {       // 攻击 计时器
-        //             let bullet: Node = instantiate(this.bulletPer); // 创建子弹
-        //             bullet.parent = this.node.parent;               // 设置父物体
-        //             bullet.setPosition(                             // 设置子弹位置
-        //                 bpos.x + 35 * i,
-        //                 bpos.y + 100 - 25 * Math.abs(i)
-        //             );
-        //         }, this.bulletspeed);
-        //     }
-        // }
-
-
     }
 
     start() {
@@ -100,7 +57,7 @@ export class PlayerControl extends Component {
         //移动canvas
         this.node.parent.on(Node.EventType.TOUCH_MOVE, (event) => {
             let p = event.getUILocation()
-            if (p.x < 40 || p.x > 320) {
+            if (p.x < 40 || p.x > 335) {
                 return
             }
             this.node.setWorldPosition(p.x, 120, 0);
@@ -111,12 +68,12 @@ export class PlayerControl extends Component {
             // 生成敌人
             let enemyPer: Node = instantiate(this.enemyPer);
             let enemyPerSCript = null;
+            enemyPer.setScale(0.5, 0.5)
             enemyPer.parent = this.node.parent;
             var index = Math.floor((Math.random() * npclist.length));
-
-            // assetManager.loadAny({ uuid: npclist[index] || '720de7f9-8261-4819-8802-678bc370c14e', type: SpriteAtlas }, (err, res) => {
-            //     enemyPer.getComponent(Sprite).spriteFrame = res;
-            // })
+            resources.load(`npc/npc_00${npclist[index]}/spriteFrame`, SpriteFrame, (err, asset) => {
+                enemyPer.getComponent(Sprite).spriteFrame = asset;
+            });
             let num = 175 * Math.random() + 1
             let xpos: number = Math.random() >= 0.5 ? -110 : 110;
             let ypos: number = 1400;
@@ -141,7 +98,7 @@ export class PlayerControl extends Component {
             }
             buffnodeBox.parent = this.node.parent;
             buffnodeBox.setPosition(0, ypos);
-        }, 5)
+        }, 2)
 
         // 开启碰撞检测功能
         let collider = this.getComponent(Collider2D);
@@ -162,7 +119,7 @@ export class PlayerControl extends Component {
     }
 
     onBeginContact<BulletControl extends Component>(BEGIN_CONTACT: string, onBeginConcat: any, arg2: this) {
-        let sprite = this.getComponent(Sprite);
+        let sprite = this.node.getComponent(Sprite);
         if (onBeginConcat.tag === 2) {
             this.node.destroy();
             director.pause()
@@ -174,6 +131,15 @@ export class PlayerControl extends Component {
             console.log('增益')
             this.initLevel += 1;
             this.injuryFactorCount.getComponent(Label).string = String(this.initLevel)
+            // 升级动画
+            for (let i of [0, 1, 2, 3, 4, 5, 6, 7, 8]) {
+                setTimeout(() => {
+                    assetManager.loadAny({ uuid: '6be8e441-9237-455b-9097-0e5715759d63@' + uuidlist[i], type: SpriteAtlas }, (err, res) => {
+                        sprite.spriteFrame = res;
+                    })
+                }, i * 100);
+            }
+            // this.node.
             // injuryFactor
             // console.log(onBeginConcat.tag)
             // onBeginConcat.node.destroy();

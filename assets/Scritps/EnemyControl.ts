@@ -8,7 +8,7 @@ let gamescore: number = 0;
 @ccclass('EnemyControl')
 export class EnemyControl extends Component {
     @property
-    private Speed: number = 200;
+    private Speed: number = 140;
     @property(Number)
     private Hp: number = 8;
     // public Hp: Node;
@@ -21,11 +21,11 @@ export class EnemyControl extends Component {
     }
 
     update(deltaTime: number) {
+        // 140 为和背景相同速度
         this.node.setWorldPosition(
             v3(this.node.getWorldPosition().x,
-                this.node.getWorldPosition().y - this.Speed * deltaTime)
+                this.node.getWorldPosition().y - 140 * deltaTime)
         );
-
         if (this.node.position.y < -400) {
             this.node.destroy();    // 敌机超出边框，自动销毁
             gamescore--;
@@ -57,7 +57,7 @@ export class EnemyControl extends Component {
             selfCollider.destroy();             // 只销毁碰撞体
             this.Speed = 0;                     // 死亡动画结束前，停留在原地
             gamescore++;
-            // 延时销毁
+            // 销毁动画
             for (let i of [0, 1, 2, 3, 4, 5, 6, 7, 8]) {
                 setTimeout(() => {
                     assetManager.loadAny({ uuid: '354aa36e-fdf9-4065-9e4e-d9eab282fdce@' + uuidlist[i], type: SpriteAtlas }, (err, res) => {

@@ -5,7 +5,7 @@ let gamescore: number = 0;
 @ccclass('BuffControl')
 export class BuffControl extends Component {
     @property
-    private Speed: number = 400;
+    private Speed: number = 140;
     start() {
         let collider = this.getComponent(Collider2D);
         if (collider) {
@@ -15,9 +15,13 @@ export class BuffControl extends Component {
 
     update(deltaTime: number) {
         // 下降
+        // this.node.setWorldPosition(
+        //     v3(this.node.getWorldPosition().x,
+        //         this.node.getWorldPosition().y - this.Speed * deltaTime)
+        // );
         this.node.setWorldPosition(
             v3(this.node.getWorldPosition().x,
-                this.node.getWorldPosition().y - this.Speed * deltaTime)
+                this.node.getWorldPosition().y - 140 * deltaTime)
         );
 
         if (this.node.position.y < -400) {
