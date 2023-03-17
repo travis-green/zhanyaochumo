@@ -61,8 +61,8 @@
     },
     "4aeb0d5a-1d59-4d66-bf5d-caa1edd804d1": {
       "position": {
-        "x": 50.518541348258964,
-        "y": 1164.5467384242618,
+        "x": 577.476301644725,
+        "y": 83.80119175878121,
         "z": 5000
       },
       "rotation": {
@@ -85,6 +85,13 @@
     "position": {
       "cc": {
         "Camera": {
+          "dock": false,
+          "top": null,
+          "bottom": 10,
+          "left": null,
+          "right": 10
+        },
+        "ParticleSystem": {
           "dock": false,
           "top": null,
           "bottom": 10,

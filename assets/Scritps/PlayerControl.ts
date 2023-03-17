@@ -1,4 +1,4 @@
-import { _decorator, Script, UIOpacity, SpriteFrame, resources, Label, Component, Node, Prefab, instantiate, director, Collider2D, ICollisionEvent, Contact2DType, assetManager, Sprite, SpriteAtlas } from 'cc';
+import { _decorator, Script, UIOpacity, SpriteFrame, resources, Label, Component, Node, Prefab, instantiate, director, Collider2D, ICollisionEvent, Contact2DType, assetManager, Sprite, SpriteAtlas, Scheduler } from 'cc';
 import { EnemyControl } from './EnemyControl';
 const { ccclass, property } = _decorator;
 let uuidlist: Array<string> = ['ae37e', '7bed0', 'c7f63', 'fb38d', 'cdb19', 'da686'];
@@ -16,40 +16,58 @@ export class PlayerControl extends Component {
     buffnodeBox: Prefab = null;
     @property(Label)
     injuryFactorCount: Label = null;
-    private bulletspeed: number = 0.2;
+    private bulletspeed: number = 0.3;
     public bulletCurrent: number = 0;
     public initLevel: number = 0;
     public levelCount: number = 1;
     public bulletRange: Array<number> = [0];
     public timeClock = null;
+    public shootstatus = 0;
 
 
     update(deltaTime: number) {
 
     }
 
-    changeShoot(val) {
+    startShoot() {
         let bpos = this.node.position;
-        if (val == 2) {
-            return
-        }
         for (let i of this.bulletRange) {     // 遍历生成子弹
             //发射
-            this.timeClock = this.schedule(() => {       // 攻击 计时器
-                let bullet: Node = instantiate(this.bulletPer); // 创建子弹
-                bullet.parent = this.node.parent;               // 设置父物体
-                bullet.setPosition(                             // 设置子弹位置
-                    bpos.x + 20 * i,
-                    bpos.y + 100 - 25
-                );
-            }, this.bulletspeed);
+            let bullet: Node = instantiate(this.bulletPer); // 创建子弹
+            bullet.parent = this.node.parent;               // 设置父物体
+            bullet.setPosition(                             // 设置子弹位置
+                bpos.x + 20 * i,
+                bpos.y + 100 - 25
+            );
         }
+    }
+
+    changeShoot() {
+        this.timeClock = function () {
+            if (this.shootstatus == 1) {
+                this.unschedule(this.timeClock);
+            }
+            this.startShoot();
+        }
+        this.schedule(this.timeClock, this.bulletspeed);
     }
 
     start() {
         // let by: number;
-        this.bulletRange = [-1, 0, 1]
-        this.changeShoot(1);
+        this.bulletRange = [0]
+        this.shootstatus = 0;
+        // setTimeout(() => {
+        //     this.shootstatus = 1
+        // }, 5000);
+        // setTimeout(() => {
+        //     this.bulletRange = [0];
+        //     this.shootstatus = 0
+        //     this.schedule(this.timeClock, this.bulletspeed);
+        // }, 9000);
+        this.changeShoot();
+        // setTimeout(() => {
+        //     this.unschedule(this.timeClock);
+        // }, 5000);
         this.schedule(() => {
             this.runAnimation()
             this.levelCount += 0.5;
@@ -65,7 +83,7 @@ export class PlayerControl extends Component {
 
 
         this.schedule(() => {
-            // 生成敌人
+            // console.log('生成敌人')
             let enemyPer: Node = instantiate(this.enemyPer);
             let enemyPerSCript = null;
             enemyPer.setScale(0.5, 0.5)
@@ -84,7 +102,7 @@ export class PlayerControl extends Component {
             enemyPer.setPosition(xpos, ypos);
             enemyPerSCript = enemyPer.getComponent('EnemyControl');
             enemyPerSCript.Hp = Math.floor(this.levelCount) * 8;
-        }, 2)
+        }, 5)
 
 
         this.schedule(() => {
@@ -133,6 +151,9 @@ export class PlayerControl extends Component {
             this.injuryFactorCount.getComponent(Label).string = String(this.initLevel)
             // 升级动画
             console.log('增益')
+            this.bulletRange = [-1, 0, 1];
+            // this.shootstatus = 0
+            //     this.schedule(this.timeClock, this.bulletspeed);
             for (let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]) {
                 setTimeout(() => {
                     assetManager.loadAny({ uuid: '6be8e441-9237-455b-9097-0e5715759d63@' + levelup1[i], type: SpriteAtlas }, (err, res) => {

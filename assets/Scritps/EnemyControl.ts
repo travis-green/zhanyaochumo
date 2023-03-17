@@ -56,6 +56,11 @@ export class EnemyControl extends Component {
             //没血了
             // console.log(1213, this.node.getComponentInChildren(Label))
             // this.node.scale = 0;
+            try {
+                wx.vibrateLong()
+            } catch (error) {
+
+            }
             const opacityComp = this.node.getComponentInChildren(UIOpacity);
             opacityComp.opacity = 0;
             this.node.children[1].destroy();
