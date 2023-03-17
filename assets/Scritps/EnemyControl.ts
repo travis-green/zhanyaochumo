@@ -1,7 +1,7 @@
 import { _decorator, Component, Node, Collider2D, UIOpacity, Contact2DType, Label, v3, resources, SpriteAtlas, Sprite, SpriteFrame, assetManager } from 'cc';
 const { ccclass, property } = _decorator;
 let uuidlist: Array<string> = ['31a11', '4cf43', '5d032', '01ebf', 'cea7e', '6d052', 'c072d', '6318b', 'ceb65'];
-let enemyhalolist: Array<string> = ['93043', 'a6b9d', 'ecffe', '74ef1', '7d214', 'fea17', 'd7755', 'fe069', '0f466', 'd6710']; // 怪物光环
+let attacklist: Array<string> = ['5d068', '1b7b1', '3e24d', '75a99', 'c7738']; // 怪物光环
 let gamescore: number = 0;
 
 
@@ -34,19 +34,24 @@ export class EnemyControl extends Component {
 
     onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D) {                 // 击毁敌机加分
         let str0, str: string;
-        // console.log("敌机坠毁   " + "目前得分：" + gamescore);
-        // console.log(this.Hp)
         // injuryFactor
         let currentLevel: number = Number(this.node.parent.getChildByName("injuryFactorCount").getComponent(Label).string)
         this.Hp -= (1 + currentLevel);
         let sprite = this.getComponent(Sprite);
-
+        let attactAni = this.node.children[2].getComponent(Sprite)
 
         if (this.Hp > 0) {
+            // 怪物受击
             // let c = this.Hp -= 2;
-            // console.log(c)
             this.node.getComponentInChildren(Label).string = String(this.Hp)
-
+            // 受击动画
+            for (let i of [0, 1, 2, 3, 4]) {
+                setTimeout(() => {
+                    assetManager.loadAny({ uuid: '082913be-e5fd-4ed0-aac8-38f36a3065ef@' + attacklist[i], type: SpriteAtlas }, (err, res) => {
+                        attactAni.spriteFrame = res;
+                    })
+                }, i * 10);
+            }
         } else if (this.Hp <= 0) {
             //没血了
             // console.log(1213, this.node.getComponentInChildren(Label))
