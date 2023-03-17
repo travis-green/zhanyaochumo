@@ -5,7 +5,8 @@
       "buildPath": "project://build",
       "outputName": "wechatgame",
       "mainBundleCompressionType": "merge_dep",
-      "platform": "wechatgame"
+      "platform": "wechatgame",
+      "server": "https://pp-vdtest.oss-cn-beijing.aliyuncs.com/test/testnew/test"
     },
     "options": {
       "wechatgame": {

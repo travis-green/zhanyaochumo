@@ -1,4 +1,4 @@
-import { _decorator, Script, SpriteFrame, resources, Label, Component, Node, Prefab, instantiate, director, Collider2D, ICollisionEvent, Contact2DType, assetManager, Sprite, SpriteAtlas } from 'cc';
+import { _decorator, Script, UIOpacity, SpriteFrame, resources, Label, Component, Node, Prefab, instantiate, director, Collider2D, ICollisionEvent, Contact2DType, assetManager, Sprite, SpriteAtlas } from 'cc';
 import { EnemyControl } from './EnemyControl';
 const { ccclass, property } = _decorator;
 let uuidlist: Array<string> = ['ae37e', '7bed0', 'c7f63', 'fb38d', 'cdb19', 'da686'];
@@ -98,7 +98,7 @@ export class PlayerControl extends Component {
             }
             buffnodeBox.parent = this.node.parent;
             buffnodeBox.setPosition(0, ypos);
-        }, 2)
+        }, 10)
 
         // 开启碰撞检测功能
         let collider = this.getComponent(Collider2D);
@@ -119,40 +119,30 @@ export class PlayerControl extends Component {
     }
 
     onBeginContact<BulletControl extends Component>(BEGIN_CONTACT: string, onBeginConcat: any, arg2: this) {
-        let sprite = this.node.getComponent(Sprite);
+        // let sprite = this.node.getComponent(Sprite);
+        let playrolesprite = this.node.children[0].getComponent(Sprite);
         if (onBeginConcat.tag === 2) {
             this.node.destroy();
             director.pause()
             // 游戏结束
             return
         }
-        // console.log(onBeginConcat.node.removeFromParent)
         if (onBeginConcat.tag === 5 || onBeginConcat.tag === 4) {
-            console.log('增益')
+            this.node.children[0].getComponent(UIOpacity).opacity = 255
             this.initLevel += 1;
             this.injuryFactorCount.getComponent(Label).string = String(this.initLevel)
             // 升级动画
-            for (let i of [0, 1, 2, 3, 4, 5, 6, 7, 8]) {
+            console.log('增益')
+            for (let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]) {
                 setTimeout(() => {
-                    assetManager.loadAny({ uuid: '6be8e441-9237-455b-9097-0e5715759d63@' + uuidlist[i], type: SpriteAtlas }, (err, res) => {
-                        sprite.spriteFrame = res;
+                    assetManager.loadAny({ uuid: '6be8e441-9237-455b-9097-0e5715759d63@' + levelup1[i], type: SpriteAtlas }, (err, res) => {
+                        playrolesprite.spriteFrame = res;
                     })
-                }, i * 100);
+                }, i * 30);
             }
-            // this.node.
-            // injuryFactor
-            // console.log(onBeginConcat.tag)
-            // onBeginConcat.node.destroy();
-            // this.bulletCurrent += 1;
-            // this.unschedule(timeClock)
-            // console.log(this.bulletCurrent)
-            // for (let index = 0; index < this.bulletCurrent * 2; index++) {
-            // const element = array[index];
-            // this.bulletRange = [-4, -3, -2, -1, 0, 1, 2, 3, 4]
-            // console.log(44444, this.bulletRange)
-            // this.bulletRange.shift(index)
-            // }
-            // this.changeShoot(2);
+            setTimeout(() => {
+                this.node.children[0].getComponent(UIOpacity).opacity = 0
+            }, 1230);
         }
         // if (onBeginConcat.tag === 3) {
         //     console.log('增益buff无限活力')
