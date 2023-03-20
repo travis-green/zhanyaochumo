@@ -82,48 +82,51 @@ export class PlayerControl extends Component {
             this.node.setWorldPosition(p.x, 120, 0);
         });
 
-
+        //定时器刷新怪
         this.schedule(() => {
-            // console.log('生成敌人')
-            let enemyPer: Node = instantiate(this.enemyPer);
-            let enemyPerSCript = null;
-            enemyPer.setScale(0.5, 0.5)
-            enemyPer.parent = this.node.parent;
-            var index = Math.floor((Math.random() * npclist.length));
-            resources.load(`npc/npc_00${npclist[index]}/spriteFrame`, SpriteFrame, (err, asset) => {
-                enemyPer.getComponent(Sprite).spriteFrame = asset;
-            });
-            let num = 175 * Math.random() + 1
-            let xpos: number = Math.random() >= 0.5 ? -110 : 110;
-            let ypos: number = 1400;
-            if (Math.random() > 0.5 && xpos) {
-                xpos = -xpos
-            }
-            enemyPer.children[0].getComponent(Label).string = String(Math.floor(this.levelCount) * 8)
-            enemyPer.setPosition(xpos, ypos);
-            enemyPerSCript = enemyPer.getComponent('EnemyControl');
-            enemyPerSCript.Hp = Math.floor(this.levelCount) * 8;
-        }, 5)
 
-
-        this.schedule(() => {
-            // 生成buff节点
-            let buffnodeBox: Node = instantiate(this.buffnodeBox);
-            let num = 175 * Math.random() + 1
-            let xpos: number = Math.floor(num);
-            let ypos: number = 420 - 100 * Math.random();
-            if (Math.random() > 0.5 && xpos) {
-                xpos = -xpos
-            }
-            buffnodeBox.parent = this.node.parent;
-            buffnodeBox.setPosition(0, ypos);
-        }, 10)
+        }, 1)
 
         // 开启碰撞检测功能
         let collider = this.getComponent(Collider2D);
         if (collider) {
             collider.on(Contact2DType.BEGIN_CONTACT, this.onBeginContact, this)
         }
+    }
+
+    createBuff() {
+        // 生成buff节点
+        let buffnodeBox: Node = instantiate(this.buffnodeBox);
+        let num = 175 * Math.random() + 1
+        let xpos: number = Math.floor(num);
+        let ypos: number = 420 - 100 * Math.random();
+        if (Math.random() > 0.5 && xpos) {
+            xpos = -xpos
+        }
+        buffnodeBox.parent = this.node.parent;
+        buffnodeBox.setPosition(0, ypos);
+    }
+
+    createEnemy() {
+        // console.log('生成敌人')
+        let enemyPer: Node = instantiate(this.enemyPer);
+        let enemyPerSCript = null;
+        enemyPer.setScale(0.5, 0.5)
+        enemyPer.parent = this.node.parent;
+        var index = Math.floor((Math.random() * npclist.length));
+        resources.load(`npc/npc_00${npclist[index]}/spriteFrame`, SpriteFrame, (err, asset) => {
+            enemyPer.getComponent(Sprite).spriteFrame = asset;
+        });
+        let num = 175 * Math.random() + 1
+        let xpos: number = Math.random() >= 0.5 ? -110 : 110;
+        let ypos: number = 1400;
+        if (Math.random() > 0.5 && xpos) {
+            xpos = -xpos
+        }
+        enemyPer.children[0].getComponent(Label).string = String(Math.floor(this.levelCount) * 8)
+        enemyPer.setPosition(xpos, ypos);
+        enemyPerSCript = enemyPer.getComponent('EnemyControl');
+        enemyPerSCript.Hp = Math.floor(this.levelCount) * 8;
     }
 
     runAnimation() {

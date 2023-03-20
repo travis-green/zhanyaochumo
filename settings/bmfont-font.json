@@ -1,0 +1,65 @@
+{
+    "saveName": "font",
+    "bitMapCfg": [
+        {
+            "image": "/Users/travis/Downloads/spritePics/00.png",
+            "char": "0",
+            "width": 75,
+            "height": 104
+        },
+        {
+            "image": "/Users/travis/Downloads/spritePics/01.png",
+            "char": "1",
+            "width": 46,
+            "height": 102
+        },
+        {
+            "image": "/Users/travis/Downloads/spritePics/02.png",
+            "char": "2",
+            "width": 70,
+            "height": 104
+        },
+        {
+            "image": "/Users/travis/Downloads/spritePics/03.png",
+            "char": "3",
+            "width": 70,
+            "height": 104
+        },
+        {
+            "image": "/Users/travis/Downloads/spritePics/04.png",
+            "char": "4",
+            "width": 77,
+            "height": 103
+        },
+        {
+            "image": "/Users/travis/Downloads/spritePics/05.png",
+            "char": "5",
+            "width": 70,
+            "height": 102
+        },
+        {
+            "image": "/Users/travis/Downloads/spritePics/06.png",
+            "char": "6",
+            "width": 72,
+            "height": 104
+        },
+        {
+            "image": "/Users/travis/Downloads/spritePics/07.png",
+            "char": "7",
+            "width": 73,
+            "height": 102
+        },
+        {
+            "image": "/Users/travis/Downloads/spritePics/08.png",
+            "char": "8",
+            "width": 72,
+            "height": 104
+        },
+        {
+            "image": "/Users/travis/Downloads/spritePics/09.png",
+            "char": "9",
+            "width": 72,
+            "height": 104
+        }
+    ]
+}
