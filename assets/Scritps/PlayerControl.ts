@@ -53,8 +53,9 @@ export class PlayerControl extends Component {
     }
 
     start() {
+        const myArray = this.generateArray(1);
         // let by: number;
-        this.bulletRange = [0]
+        this.bulletRange = myArray
         this.shootstatus = 0;
         // setTimeout(() => {
         //     this.shootstatus = 1
@@ -136,6 +137,22 @@ export class PlayerControl extends Component {
         }
     }
 
+    generateArray(length) {
+        const arr = [];
+        const mid = Math.floor(length / 2); // 中间位置
+        for (let i = 1; i <= mid; i++) {
+            arr[mid + i] = i; // 正数
+            arr[mid - i] = -i; // 负数
+        }
+        if (length % 2 !== 0) {
+            arr[mid] = 0; // 中间位置为0
+        }
+        return arr;
+    }
+
+
+
+
     onBeginContact<BulletControl extends Component>(BEGIN_CONTACT: string, onBeginConcat: any, arg2: this) {
         // let sprite = this.node.getComponent(Sprite);
         let playrolesprite = this.node.children[0].getComponent(Sprite);
@@ -150,8 +167,12 @@ export class PlayerControl extends Component {
             this.initLevel += 1;
             this.injuryFactorCount.getComponent(Label).string = String(this.initLevel)
             // 升级动画
-            console.log('增益')
-            this.bulletRange = [-1, 0, 1];
+            // console.log('增益')
+            // this.bulletRange = [-1, 0, 1];
+            let bulletRange = this.generateArray(3);
+            // let by: number;
+            this.bulletRange = bulletRange
+            this.shootstatus = 0;
             // this.shootstatus = 0
             //     this.schedule(this.timeClock, this.bulletspeed);
             for (let i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]) {

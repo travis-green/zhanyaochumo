@@ -59,7 +59,7 @@
         "progress": 1,
         "state": "success",
         "stage": "run",
-        "message": "2023-3-16 14:54:43 run package /Users/travis/Desktop/myproject/zhanyaochumo/build/wechatgame success!",
+        "message": "2023-3-17 20:00:58 run package /Users/travis/Desktop/myproject/zhanyaochumo/build/wechatgame success!",
         "options": {
           "name": "fly_war",
           "platform": "wechatgame",
@@ -92,7 +92,7 @@
           "wechatgame": [],
           "server": "https://pp-vdtest.oss-cn-beijing.aliyuncs.com/test/testnew/test"
         },
-        "time": "2023-3-16 14:54",
+        "time": "2023-3-17 20:00",
         "dirty": false
       }
     }

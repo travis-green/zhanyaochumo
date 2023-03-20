@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Collider2D, UIOpacity, Contact2DType, Label, v3, resources, SpriteAtlas, Sprite, SpriteFrame, assetManager } from 'cc';
+import { tween, _decorator, Component, AnimationClip, Animation, Node, Collider2D, UIOpacity, Contact2DType, Label, v3, resources, SpriteAtlas, Sprite, SpriteFrame, assetManager } from 'cc';
 const { ccclass, property } = _decorator;
 let uuidlist: Array<string> = ['31a11', '4cf43', '5d032', '01ebf', 'cea7e', '6d052', 'c072d', '6318b', 'ceb65'];
 let attacklist: Array<string> = ['5d068', '1b7b1', '3e24d', '75a99', 'c7738']; // 怪物光环
@@ -11,6 +11,8 @@ export class EnemyControl extends Component {
     private Speed: number = 140;
     @property(Number)
     private Hp: number = 8;
+    @property({ type: Animation })
+    private myAnimation: Animation = null;
     // public Hp: Node;
     start() {
         let collider = this.getComponent(Collider2D);
@@ -39,11 +41,26 @@ export class EnemyControl extends Component {
         this.Hp -= (1 + currentLevel);
         let sprite = this.getComponent(Sprite);
         let attactAni = this.node.children[2].getComponent(Sprite)
-
+        let ani = tween(this.node)
+            .to(0.1, { scale: v3(0.5, 0.5) })
+            .to(0.2, { scale: v3(0.4, 0.5) })
+            .to(0.1, { scale: v3(0.5, 0.5) })
+            .call(() => {
+            })
         if (this.Hp > 0) {
             // 怪物受击
             // let c = this.Hp -= 2;
             this.node.getComponentInChildren(Label).string = String(this.Hp)
+            ani.start();
+            // }, 0.2)
+            // resources.load("animation/getattack", AnimationClip, (err, clip) => {
+            //     if (err) {
+            //         return;
+            //     }
+            //     // 将加载得到的动画资源添加到Animation组件上
+            //     // this.myAnimation.addClip(clip);
+            //     // this.myAnimation.play("getattack");
+            // });
             // 受击动画
             for (let i of [0, 1, 2, 3, 4]) {
                 setTimeout(() => {
