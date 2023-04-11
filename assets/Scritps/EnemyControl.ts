@@ -29,12 +29,12 @@ export class EnemyControl extends Component {
                 this.node.getWorldPosition().y - 140 * deltaTime)
         );
         if (this.node.position.y < -400) {
-            this.node.destroy();    // 敌机超出边框，自动销毁
+            this.node.destroy();    // 超出边框，自动销毁
             gamescore--;
         }
     }
 
-    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D) {                 // 击毁敌机加分
+    onBeginContact(selfCollider: Collider2D, otherCollider: Collider2D) {
         let str0, str: string;
         // injuryFactor
         let currentLevel: number = Number(this.node.parent.getChildByName("injuryFactorCount").getComponent(Label).string)

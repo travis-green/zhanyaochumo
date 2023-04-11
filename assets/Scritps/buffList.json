@@ -1,0 +1,49 @@
+{
+    "awardList": [
+        {
+            "id": 1,
+            "label": "xx剑",
+            "attackWord": "打爆我获得X年修行"
+        },
+        {
+            "id": 2,
+            "label": "xx剑",
+            "attackWord": "打爆我获得X年修行"
+        },
+        {
+            "id": 3,
+            "label": "xx剑",
+            "attackWord": "打爆我获得X年修行"
+        },
+        {
+            "id": 4,
+            "label": "xx剑",
+            "attackWord": "打爆我获得X年修行"
+        },
+        {
+            "id": 5,
+            "label": "xx剑",
+            "attackWord": "打爆我获得X年修行"
+        },
+        {
+            "id": 6,
+            "label": "xx剑",
+            "attackWord": "打爆我获得X年修行"
+        },
+        {
+            "id": 7,
+            "label": "xx剑",
+            "attackWord": "打爆我获得X年修行"
+        },
+        {
+            "id": 8,
+            "label": "xx剑",
+            "attackWord": "打爆我获得X年修行"
+        },
+        {
+            "id": 9,
+            "label": "xx剑",
+            "attackWord": "打爆我获得X年修行"
+        }
+    ]
+}

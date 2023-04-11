@@ -23,6 +23,8 @@ export class PlayerControl extends Component {
     public bulletRange: Array<number> = [0];
     public timeClock = null;
     public shootstatus = 0;
+    public runCount = 0;
+    public showBoss = false;
 
 
     update(deltaTime: number) {
@@ -55,6 +57,11 @@ export class PlayerControl extends Component {
     start() {
         const myArray = this.generateArray(1);
         // let by: number;
+        //人物走路动画
+        this.schedule(() => {
+            this.runAnimation()
+            this.levelCount += 0.5;
+        }, 0.6)
         this.bulletRange = myArray
         this.shootstatus = 0;
         // setTimeout(() => {
@@ -65,14 +72,10 @@ export class PlayerControl extends Component {
         //     this.shootstatus = 0
         //     this.schedule(this.timeClock, this.bulletspeed);
         // }, 9000);
-        this.changeShoot();
+        this.changeShoot(); // 发射子弹
         // setTimeout(() => {
         //     this.unschedule(this.timeClock);
         // }, 5000);
-        this.schedule(() => {
-            this.runAnimation()
-            this.levelCount += 0.5;
-        }, 0.6)
         //移动canvas
         this.node.parent.on(Node.EventType.TOUCH_MOVE, (event) => {
             let p = event.getUILocation()
@@ -84,7 +87,18 @@ export class PlayerControl extends Component {
 
         //定时器刷新怪
         this.schedule(() => {
-
+            var random = Math.random() * 50
+            this.runCount += 1
+            if (this.runCount % 5 == 0 && !this.showBoss) {
+                if (random > 25) {
+                    this.createBuff()
+                } else {
+                    this.createEnemy()
+                }
+            }
+            // if (this.runCount % 12 == 0 && !this.showBoss) {
+            //     this.createBuff()
+            // }
         }, 1)
 
         // 开启碰撞检测功能
@@ -99,7 +113,7 @@ export class PlayerControl extends Component {
         let buffnodeBox: Node = instantiate(this.buffnodeBox);
         let num = 175 * Math.random() + 1
         let xpos: number = Math.floor(num);
-        let ypos: number = 420 - 100 * Math.random();
+        let ypos: number = 520 - 100 * Math.random();
         if (Math.random() > 0.5 && xpos) {
             xpos = -xpos
         }
@@ -119,7 +133,8 @@ export class PlayerControl extends Component {
         });
         let num = 175 * Math.random() + 1
         let xpos: number = Math.random() >= 0.5 ? -110 : 110;
-        let ypos: number = 1400;
+        // let ypos: number = 1400;
+        let ypos: number = 520 - 100 * Math.random();
         if (Math.random() > 0.5 && xpos) {
             xpos = -xpos
         }
