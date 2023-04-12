@@ -1,4 +1,4 @@
-import { tween, _decorator, Component, AnimationClip, Animation, Node, Collider2D, UIOpacity, Contact2DType, Label, v3, resources, SpriteAtlas, Sprite, SpriteFrame, assetManager } from 'cc';
+import { tween, find, Script, _decorator, Component, AnimationClip, Animation, Node, Collider2D, UIOpacity, Contact2DType, Label, v3, resources, SpriteAtlas, Sprite, SpriteFrame, assetManager } from 'cc';
 const { ccclass, property } = _decorator;
 let uuidlist: Array<string> = ['31a11', '4cf43', '5d032', '01ebf', 'cea7e', '6d052', 'c072d', '6318b', 'ceb65'];
 let attacklist: Array<string> = ['5d068', '1b7b1', '3e24d', '75a99', 'c7738']; // 怪物光环
@@ -47,11 +47,22 @@ export class EnemyControl extends Component {
             .to(0.1, { scale: v3(0.5, 0.5) })
             .call(() => {
             })
+        let bossani = tween(this.node)
+            .to(0.1, { scale: v3(1, 1) })
+            .to(0.2, { scale: v3(0.9, 1) })
+            .to(0.1, { scale: v3(1, 1) })
+            .call(() => {
+            })
         if (this.Hp > 0) {
             // 怪物受击
             // let c = this.Hp -= 2;
             this.node.getComponentInChildren(Label).string = String(this.Hp)
-            ani.start();
+            if (selfCollider.tag == 2) {
+                ani.start();
+            } else if (selfCollider.tag == 6) {
+                bossani.start()
+            }
+            // ani.start();
             // }, 0.2)
             // resources.load("animation/getattack", AnimationClip, (err, clip) => {
             //     if (err) {
@@ -92,6 +103,9 @@ export class EnemyControl extends Component {
                     })
                 }, i * 100);
             }
+            if (selfCollider.tag == 6) {
+                find("Canvas/player").getComponent("PlayerControl").continueCreate();
+            }
             setTimeout(() => {
                 this.die();
             }, 900)
@@ -101,7 +115,6 @@ export class EnemyControl extends Component {
     die() {
         try {
             // 遍历加载爆炸图片
-
             this.node.destroy();
         } catch (err) {
             console.log(err);

@@ -986,6 +986,10 @@
     "injuryFactorCount": {
       "__id__": 37
     },
+    "bossnode": {
+      "__uuid__": "f49c8df5-b72c-4e21-9233-2c6d6c38cddf",
+      "__expectedType__": "cc.Prefab"
+    },
     "_id": "cbLK6MBYlM+pksp9XKDS/I"
   },
   {
@@ -1046,7 +1050,7 @@
     "_prefab": null,
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -180.279,
+      "x": -159.17,
       "y": 284.508,
       "z": 0
     },

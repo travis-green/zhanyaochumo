@@ -9,7 +9,9 @@
     "outputName": "wechatgame",
     "mainBundleCompressionType": "merge_dep",
     "platform": "wechatgame",
-    "server": "https://pp-vdtest.oss-cn-beijing.aliyuncs.com/test/testnew/test"
+    "server": "https://pp-vdtest.oss-cn-beijing.aliyuncs.com/test/testnew/test",
+    "mainBundleIsRemote": true,
+    "sourceMaps": true
   },
   "BuildTaskManager": {
     "taskMap": {
@@ -59,7 +61,7 @@
         "progress": 1,
         "state": "success",
         "stage": "run",
-        "message": "2023-3-24 14:31:47 run package /Users/travis/Desktop/myproject/zhanyaochumo/build/wechatgame success!",
+        "message": "2023-4-11 18:50:46 run package /Users/travis/Desktop/myproject/zhanyaochumo/build/wechatgame success!",
         "options": {
           "name": "fly_war",
           "platform": "wechatgame",
@@ -67,13 +69,13 @@
           "debug": false,
           "md5Cache": false,
           "skipCompressTexture": false,
-          "sourceMaps": false,
+          "sourceMaps": true,
           "polyfills": {
             "asyncFunctions": false
           },
           "experimentalEraseModules": false,
           "useBuiltinServer": false,
-          "mainBundleIsRemote": false,
+          "mainBundleIsRemote": true,
           "mainBundleCompressionType": "merge_dep",
           "useSplashScreen": true,
           "packAutoAtlas": true,
@@ -92,7 +94,7 @@
           "wechatgame": [],
           "server": "https://pp-vdtest.oss-cn-beijing.aliyuncs.com/test/testnew/test"
         },
-        "time": "2023-3-24 14:30",
+        "time": "2023-4-11 18:49",
         "dirty": false
       }
     }

@@ -6,7 +6,9 @@
       "outputName": "wechatgame",
       "mainBundleCompressionType": "merge_dep",
       "platform": "wechatgame",
-      "server": "https://pp-vdtest.oss-cn-beijing.aliyuncs.com/test/testnew/test"
+      "server": "https://pp-vdtest.oss-cn-beijing.aliyuncs.com/test/testnew/test",
+      "mainBundleIsRemote": true,
+      "sourceMaps": true
     },
     "options": {
       "wechatgame": {

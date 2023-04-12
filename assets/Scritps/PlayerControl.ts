@@ -4,7 +4,7 @@ const { ccclass, property } = _decorator;
 let uuidlist: Array<string> = ['ae37e', '7bed0', 'c7f63', 'fb38d', 'cdb19', 'da686'];
 let npclist: Array<string> = ['1', '2', '3', '4', '5', '6', '7'];
 let levelup1: Array<string> = ['2f41a', '7a232', '18485', '0cda5', 'a6c49', '656a6', '07429', '80fe3', '54878', 'ba987', '2fc59', 'ed7eb', 'e2c9b', 'c7ad5', '52c42', '8fa1e', 'a0870', 'f3508', '2313e', '4f3ca', 'dc0bd', '85e40', '29e0e', '706e2', '3d33a', '3fc89', '8a581', '93d1c', '72a05', '22b56', '5c7bb', 'a9817', '4a939', '3879b', '17ed2', 'daa6e', '7f2cc', 'dcb3e', '80ca5', 'b86ff', 'ea784'];
-// tag：0主角 1子弹 2敌人 4～5左右增益
+// tag：0主角 1子弹 2敌人 4～5左右增益 6 boss
 
 @ccclass('PlayerControl')
 export class PlayerControl extends Component {
@@ -16,6 +16,8 @@ export class PlayerControl extends Component {
     buffnodeBox: Prefab = null;
     @property(Label)
     injuryFactorCount: Label = null;
+    @property(Prefab)
+    bossnode: Prefab = null;
     private bulletspeed: number = 0.3;
     public bulletCurrent: number = 0;
     public initLevel: number = 0;
@@ -54,6 +56,12 @@ export class PlayerControl extends Component {
         this.schedule(this.timeClock, this.bulletspeed);
     }
 
+    continueCreate() {
+        // 击败boss 重置
+        this.showBoss = false;
+        this.runCount = 0;
+    }
+
     start() {
         const myArray = this.generateArray(1);
         // let by: number;
@@ -89,6 +97,15 @@ export class PlayerControl extends Component {
         this.schedule(() => {
             var random = Math.random() * 50
             this.runCount += 1
+            console.log('计时器', this.runCount)
+            if (this.showBoss) {
+                return
+            }
+            if (this.runCount % 15 == 0) {
+                this.showBoss = true;
+                this.createBoss();
+                // return
+            }
             if (this.runCount % 5 == 0 && !this.showBoss) {
                 if (random > 25) {
                     this.createBuff()
@@ -144,6 +161,26 @@ export class PlayerControl extends Component {
         enemyPerSCript.Hp = Math.floor(this.levelCount) * 8;
     }
 
+    createBoss() {
+        // console.log('生成敌人')
+        let bossnode: Node = instantiate(this.bossnode);
+        let enemyPerSCript = null;
+        bossnode.setScale(1, 1)
+        bossnode.parent = this.node.parent;
+        var index = Math.floor((Math.random() * npclist.length));
+        resources.load(`npc/boss_001/spriteFrame`, SpriteFrame, (err, asset) => {
+            bossnode.getComponent(Sprite).spriteFrame = asset;
+        });
+        let num = 175 * Math.random() + 1
+        let xpos: number = 0;
+        // let ypos: number = 1400;
+        let ypos: number = 520 - 100 * Math.random();
+        bossnode.children[0].getComponent(Label).string = String(Math.floor(this.levelCount) * 16)
+        bossnode.setPosition(xpos, ypos);
+        enemyPerSCript = bossnode.getComponent('EnemyControl');
+        enemyPerSCript.Hp = Math.floor(this.levelCount) * 8;
+    }
+
     runAnimation() {
         for (let i of [0, 1, 2, 3, 4, 5]) {
             let sprite = this.getComponent(Sprite);
@@ -174,7 +211,7 @@ export class PlayerControl extends Component {
     onBeginContact<BulletControl extends Component>(BEGIN_CONTACT: string, onBeginConcat: any, arg2: this) {
         // let sprite = this.node.getComponent(Sprite);
         let playrolesprite = this.node.children[0].getComponent(Sprite);
-        if (onBeginConcat.tag === 2) {
+        if (onBeginConcat.tag === 2 || onBeginConcat.tag === 6) {
             this.node.destroy();
             director.pause()
             // 游戏结束
